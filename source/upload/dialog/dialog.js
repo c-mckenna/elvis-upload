@@ -42,7 +42,8 @@
                      scope.state = new State();
                   }
                   scope.upload = () => {
-                     if(scope.state.file.size >= 8 * 1024 * 1024) {
+                     let state = scope.state;
+                     if(state.file.size >= 8 * 1024 * 1024) {
                         messageService.warn("File uploading. Large files may take some time.");
                      } else {
                         messageService.info("Uploading file...");
@@ -50,7 +51,7 @@
 
                      scope.cancel();
 
-                     submitService.upload(scope.state.file, userService.token()).then(response => {
+                     submitService.upload(state.file, userService.token()).then(response => {
                         messageService.clear();
                         messageService.success("File uploaded successfully an email will be sent after it is processed.");
                      }).catch(e => {

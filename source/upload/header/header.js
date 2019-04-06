@@ -13,7 +13,17 @@
 			});
 		}])
 
-		.directive('icsmHeader', [function () {
+		.directive('icsmUser', ["userService", function (userService) {
+         return {
+				restrict: 'EA',
+            template: "<span><strong>User Name:</strong> {{username}} <strong>Jurisdiction:</strong> {{jurisdiction}}</span>",
+            link: function(scope) {
+               scope.username = userService.username();
+               scope.jurisdiction = userService.jurisdiction();
+            }
+         }
+      }])
+      .directive('icsmHeader', [function () {
 			let defaults = {
 				heading: "ICSM",
 				headingtitle: "ICSM",

@@ -152,7 +152,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                scope.state = new State();
             };
             scope.upload = function () {
-               if (scope.state.file.size >= 8 * 1024 * 1024) {
+               var state = scope.state;
+               if (state.file.size >= 8 * 1024 * 1024) {
                   messageService.warn("File uploading. Large files may take some time.");
                } else {
                   messageService.info("Uploading file...");
@@ -160,7 +161,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
                scope.cancel();
 
-               submitService.upload(scope.state.file, userService.token()).then(function (response) {
+               submitService.upload(state.file, userService.token()).then(function (response) {
                   messageService.clear();
                   messageService.success("File uploaded successfully an email will be sent after it is processed.");
                }).catch(function (e) {
@@ -244,6 +245,15 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 		$scope.$on('headerUpdated', function (event, args) {
 			$scope.headerConfig = modifyConfigSource(args);
 		});
+	}]).directive('icsmUser', ["userService", function (userService) {
+		return {
+			restrict: 'EA',
+			template: "<span><strong>User Name:</strong> {{username}} <strong>Jurisdiction:</strong> {{jurisdiction}}</span>",
+			link: function link(scope) {
+				scope.username = userService.username();
+				scope.jurisdiction = userService.jurisdiction();
+			}
+		};
 	}]).directive('icsmHeader', [function () {
 		var defaults = {
 			heading: "ICSM",
@@ -304,7 +314,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             var postData = new FormData();
             var config = this.config;
 
-            postData.set("file", file);
+            postData.append("file", file);
 
             // ADD LISTENERS.
             var objXhr = new XMLHttpRequest();
@@ -423,4 +433,4 @@ angular.module("upload.templates", []).run(["$templateCache", function($template
 $templateCache.put("upload/file/file.html","<div class=\"container-fluid file-container\" ng-controller=\"RootCtrl as root\">\r\n   <div class=\"row\">\r\n      <div class=\"col-md-7\" style=\"border-right: 2px solid lightgray\">\r\n         <div>\r\n            <h3 style=\"margin-top:10px\">File Drop Directions</h3>\r\n            As a registered submitter of placenames features it is your responsibility to ensure your data is in the approved format. While any file is able to be submitted this page only submits the file for processing. The only message you will receive at this point is that the file has been queued for processing. Later, once the file has been processed you will receive an email describing the success or otherwise of the job.\r\n            <div>\r\n               <div style=\"padding-bottom:5px\">\r\n                  <file-drop state=\"root.state\" />\r\n               </div>\r\n               <input-format list=\"root.data.fileUploadFormats\" />\r\n            </div>\r\n         </div>\r\n\r\n      </div>\r\n      <div class=\"col-md-5\" >\r\n         <upload-dialog state=\"root.state\" settings=\"root.data\"/>\r\n      </div>\r\n   </div>\r\n</div>");
 $templateCache.put("upload/filedrop/filedrop.html","<div id=\"fileDrop\" title=\"Drop a file with Placenames Features here\">\r\n   <br/> Drop <br/> File <br/> Here\r\n</div>");
 $templateCache.put("upload/filename/filename.html","<div class=\"input-group\">\r\n   <span class=\"input-group-addon\" id=\"nedf-filename\">Filename</span>\r\n   <input type=\"text\" ng-maxlength=\"30\" ng-trim=\"true\" ng-keypress=\"restrict($event)\"\r\n         ng-model=\"state.outputName\" class=\"form-control\"\r\n         placeholder=\"Filename\" aria-describedby=\"pos-filename\" />\r\n   <span class=\"input-group-addon\" id=\"basic-addon2\">.zip</span>\r\n</div>");
-$templateCache.put("upload/header/header.html","<div class=\"container-full common-header\" style=\"padding-right:10px; padding-left:10px\">\r\n    <div class=\"navbar-header\">\r\n\r\n        <button type=\"button\" class=\"navbar-toggle\" data-toggle=\"collapse\" data-target=\".ga-header-collapse\">\r\n            <span class=\"sr-only\">Toggle navigation</span>\r\n            <span class=\"icon-bar\"></span>\r\n            <span class=\"icon-bar\"></span>\r\n            <span class=\"icon-bar\"></span>\r\n        </button>\r\n        <a href=\"/\" class=\"appTitle visible-xs\">\r\n            <h1 style=\"font-size:120%\">{{heading}}</h1>\r\n        </a>\r\n    </div>\r\n    <div class=\"navbar-collapse collapse ga-header-collapse\">\r\n        <ul class=\"nav navbar-nav\">\r\n            <li class=\"hidden-xs\"><a href=\"/\"><h1 class=\"applicationTitle\">{{heading}}</h1></a></li>\r\n        </ul>\r\n        <ul class=\"nav navbar-nav navbar-right nav-icons\">\r\n        	<li common-navigation current=\"current\" role=\"menuitem\" style=\"padding-right:10px\"></li>\r\n			<li mars-version-display role=\"menuitem\"></li>\r\n			<li style=\"width:10px\"></li>\r\n        </ul>\r\n    </div><!--/.nav-collapse -->\r\n</div>\r\n\r\n<!-- Strap -->\r\n<div class=\"row\">\r\n    <div class=\"col-md-12\">\r\n        <div class=\"strap-blue\">\r\n        </div>\r\n        <div class=\"strap-white\">\r\n        </div>\r\n        <div class=\"strap-red\">\r\n        </div>\r\n    </div>\r\n</div>");}]);
+$templateCache.put("upload/header/header.html","<div class=\"container-full common-header\" style=\"padding-right:10px; padding-left:10px\">\r\n    <div class=\"navbar-header\">\r\n\r\n        <button type=\"button\" class=\"navbar-toggle\" data-toggle=\"collapse\" data-target=\".ga-header-collapse\">\r\n            <span class=\"sr-only\">Toggle navigation</span>\r\n            <span class=\"icon-bar\"></span>\r\n            <span class=\"icon-bar\"></span>\r\n            <span class=\"icon-bar\"></span>\r\n        </button>\r\n        <a href=\"/\" class=\"appTitle visible-xs\">\r\n            <h1 style=\"font-size:120%\">{{heading}}</h1>\r\n        </a>\r\n    </div>\r\n    <div class=\"navbar-collapse collapse ga-header-collapse\">\r\n        <ul class=\"nav navbar-nav\">\r\n            <li class=\"hidden-xs\"><a href=\"/\"><h1 class=\"applicationTitle\">{{heading}}</h1></a></li>\r\n        </ul>\r\n        <ul class=\"nav navbar-nav navbar-right nav-icons\">\r\n        	<li common-navigation current=\"current\" role=\"menuitem\" style=\"padding-right:10px\"></li>\r\n			<li mars-version-display role=\"menuitem\"></li>\r\n			<li style=\"width:10px\"></li>\r\n        </ul>\r\n    </div><!--/.nav-collapse -->\r\n    <div style=\"position:absolute; bottom:25px; right:15px\">\r\n      <icsm-user></icsm-user>\r\n   </div>\r\n</div>\r\n\r\n<!-- Strap -->\r\n<div class=\"row\">\r\n    <div class=\"col-md-12\">\r\n        <div class=\"strap-blue\">\r\n        </div>\r\n        <div class=\"strap-white\">\r\n        </div>\r\n        <div class=\"strap-red\">\r\n        </div>\r\n    </div>\r\n</div>");}]);

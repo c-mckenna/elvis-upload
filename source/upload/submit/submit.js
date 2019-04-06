@@ -10,7 +10,7 @@
          var postData = new FormData();
          let config = this.config;
 
-         postData.set("file", file);
+         postData.append("file", file);
 
          // ADD LISTENERS.
          var objXhr = new XMLHttpRequest();

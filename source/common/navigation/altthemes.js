@@ -1,8 +1,5 @@
-(function (angular) {
-
-	'use strict';
-
-	angular.module('common.altthemes', [])
+{
+   angular.module('common.altthemes', [])
 
 		/**
 			*
@@ -136,4 +133,4 @@
 			};
 		});
 
-})(angular);
+}
