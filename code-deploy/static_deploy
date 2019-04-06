@@ -5,3 +5,5 @@ cd /home/ec2-user/elvis-upload
 
 # Update code base
 git pull
+
+sudo service upload start
