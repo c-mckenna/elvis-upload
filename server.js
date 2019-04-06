@@ -64,6 +64,7 @@ function redirectSansToken(req, res) {
 
       res.sendFile(__dirname + "/dist/index.html")
    }).catch((error) => {
+      console.log(error);
       res.redirect(config.loginUrl);
    });
 }
