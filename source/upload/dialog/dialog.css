@@ -1,0 +1,30 @@
+.upload-dialog p {
+    padding: 15px;
+    margin-top: 10px;
+}
+.ud-info {
+   background-color: #d9edf7;
+   margin-top: 10px;
+   padding: 5px;
+   border-radius: 4px;
+}
+
+.transform-button {
+   width: 10em;
+}
+
+.transform-selected {
+   color: green;
+}
+
+@media screen and (max-width: 1350px) {
+   .transform-verbose {
+      display: none;
+   }
+}
+
+@media screen and (min-width: 1350px) {
+   .transform-succinct {
+      display: none;
+   }
+}

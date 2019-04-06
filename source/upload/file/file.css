@@ -1,0 +1,15 @@
+.hide {
+   display: none;
+}
+
+.file-container {
+   margin-top:0;
+}
+
+a.brighter {
+   color:blue;
+}
+
+a.brighter:hover {
+   font-weight:bold;
+}

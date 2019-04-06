@@ -1,0 +1,31 @@
+<div class="upload-dialog">
+   <div class="ud-info" ng-if="!state.file">
+      <div style="font-weight: bold">
+         <i class="fa fa-hand-o-left point-at-box fa-2x" aria-hidden="true" style="padding-right:12px;"></i>
+         Select and drop file for processing
+      </div>
+      <br/>
+      <div>
+         <span style="font-weight: bold">Placenames -</span>
+         Drop a single file for adding placenames features to the <a href="http://placenames.fsdf.org.au" target="_blank">Placenames Application</a>.
+      </div>
+
+   </div>
+
+   <div ng-if="state.file">
+      <h3>Selected {{state.file.name}} ({{state.file.size | bytes}})</h3>
+   </div>
+   <div ng-if="state.file.size > settings.maxFileSize">
+      The size of the file to be uploaded must not exceed {{settings.maxFileSize | bytes}}. Please select a smaller file.
+      <br/><br/>
+      <button type="button" class="btn btn-primary" ng-click="cancel()">OK</button>
+   </div>
+   <div ng-if="state.file.size <= settings.maxFileSize">
+      Are you sure you want to upload this file? If this data validates successfully it will overwrite the existing data
+      in the <a href="http://placenames.fsdf.org.au" target="_blank"></a>Placenames application</a>.
+      <br/>
+      <br/>
+      <button type="button" class="btn btn-primary" ng-click="upload()">Upload Now</button>
+      <button type="button" class="btn btn-primary" ng-click="cancel()">Cancel</button>
+   </div>
+</div>

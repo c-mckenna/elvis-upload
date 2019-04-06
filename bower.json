@@ -1,0 +1,25 @@
+{
+  "name": "elvis-upload",
+  "version": "0.0.1",
+  "description": "upload for positioning",
+  "keywords": [
+    "icsm",
+    "positioning"
+  ],
+  "directory": "dist/upload/bower_components",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "license": "https://raw.githubusercontent.com/Tomella/elvis-upload/master/LICENSE",
+  "dependencies": {
+    "explorer-ui-components": "https://github.com/Tomella/explorer-ui-components.git#master",
+    "angular": "~1.6.5",
+    "components-font-awesome": "~4.5.0",
+    "angular-bootstrap": "^1.3.3",
+    "babel-polyfill": "^0.0.1"
+  }
+}

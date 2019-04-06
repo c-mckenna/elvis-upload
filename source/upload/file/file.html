@@ -1,0 +1,20 @@
+<div class="container-fluid file-container" ng-controller="RootCtrl as root">
+   <div class="row">
+      <div class="col-md-7" style="border-right: 2px solid lightgray">
+         <div>
+            <h3 style="margin-top:10px">File Drop Directions</h3>
+            As a registered submitter of placenames features it is your responsibility to ensure your data is in the approved format. While any file is able to be submitted this page only submits the file for processing. The only message you will receive at this point is that the file has been queued for processing. Later, once the file has been processed you will receive an email describing the success or otherwise of the job.
+            <div>
+               <div style="padding-bottom:5px">
+                  <file-drop state="root.state" />
+               </div>
+               <input-format list="root.data.fileUploadFormats" />
+            </div>
+         </div>
+
+      </div>
+      <div class="col-md-5" >
+         <upload-dialog state="root.state" settings="root.data"/>
+      </div>
+   </div>
+</div>

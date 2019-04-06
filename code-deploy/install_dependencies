@@ -1,0 +1,29 @@
+#!/bin/bash
+PROJECT_DIR=/home/ec2-user/elvis-upload
+HTTP_CONFIG_DIRECTORY=/etc/httpd/conf.d
+UPLOAD_PROXY_FILE_NAME=upload.conf
+UPLOAD_SERVER_FILE_NAME=upload
+UPLOAD_PROXY_SOURCE=$PROJECT_DIR/code-deploy/$UPLOAD_PROXY_FILE_NAME
+UPLOAD_PROXY_CONFIG_TARGET=$HTTP_CONFIG_DIRECTORY/$UPLOAD_PROXY_FILE_NAME
+UPLOAD_SERVICE_NAME=upload
+UPLOAD_SERVICE_TARGET=/etc/init.d/$UPLOAD_SERVICE_NAME
+UPLOAD_SERVICE_SOURCE=$PROJECT_DIR/code-deploy/upload
+
+git clone https://github.com/Tomella/elvis-upload.git
+cd elvis-upload
+npm install
+bower install
+
+# Sets up Apache HTTP service
+if [ ! -f "$UPLOAD_PROXY_CONFIG_TARGET" ]; then
+   sudo cp "$UPLOAD_PROXY_SOURCE" "$HTTP_CONFIG_DIRECTORY"
+   sudo service httpd restart
+fi
+
+# Creates a SYS5 service and autostarts it
+if [ ! -f "$UPLOAD_SERVICE_TARGET" ]; then
+   sudo cp $UPLOAD_SERVICE_SOURCE /etc/init.d
+   sudo chmod +x /etc/init.d/$UPLOAD_SERVICE_NAME
+   sudo service upload start
+   sudo chkconfig upload on
+fi

@@ -1,0 +1,13 @@
+const Cognito = require("../lib/cognito");
+const config = require("../lib/config");
+// Just an old expired token with no secrets
+const token = "eyJraWQiOiJrb1RjdEpSTzBHcVFwRXJcL291UXZGK0c2dHhtXC8wUDlwWFwvTHVxV2VwQWpZPSIsImFsZyI6IlJTMjU2In0.eyJhdF9oYXNoIjoiNUdnaGFYY3l1cU1wZTE5ZUNsSExDZyIsInN1YiI6IjliNzI3MDc0LTk4NjEtNDg5NC1iODg4LWJlOWI0NmIyNjEyYSIsImNvZ25pdG86Z3JvdXBzIjpbIldBIl0sImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJpc3MiOiJodHRwczpcL1wvY29nbml0by1pZHAudXMtZWFzdC0yLmFtYXpvbmF3cy5jb21cL3VzLWVhc3QtMl9lMkRyTHppMVoiLCJjb2duaXRvOnVzZXJuYW1lIjoiR05XIiwiYXVkIjoiNTJmazY4dTk1MWF2NXVmMDZoa2UzbGF2YXEiLCJldmVudF9pZCI6ImVmNzNmNTQxLTU4MDctMTFlOS1iMTJjLTNiMDY4NmNiMGQwNSIsInRva2VuX3VzZSI6ImlkIiwiYXV0aF90aW1lIjoxNTU0NTEyNjcxLCJleHAiOjE1NTQ1MTYyNzEsImlhdCI6MTU1NDUxMjY3MSwiZW1haWwiOiJUT01FTExBMUBHTUFJTC5DT00ifQ.rYG2kfGAxXMOrhMMtn1edNVEj9JLg8CpV4FK-bI8c_2oQ-i9gDR9wSPcscu3diU7fEx1Jtw0BWPFuDgeIgpKYlJ7sOiEbwJHIPWcYcR1Q4OlYd2vtV75yqq5Sx_QIJb1CIcvjuG_jfqhTnLOOkZbOuz3AExl7c91kcgFF1hTu3gEVDnFt3gYg93q3k6BJ-9R2RhBA1Mprrv17ImFTHDg97yEDo2_JmM4kfJKyRymxoMytShRzvt0tuZ5bN6RKn3zELu2xg1CsfbgVtR6tdE71fM7gM8G_JgT28nQV6d5G806H_0cr6cwfLGP6X251FX0H7GkJwfw0J81bgnxdjlvMQ";
+
+
+const cognito = new Cognito(config.cognito);
+
+cognito.validate(token).then(response => {
+   console.log(response);
+}).catch((error) => {
+   console.log("Oooh!");
+});
