@@ -85,19 +85,14 @@ app.post('/upload', function (req, res, next) {
       let prefix = config.jurisdictionToS3[jurisdiction].path;
 
       awsS3.upload(prefix, file.name, file.data).then(result => {
-         console.log("Whoopee Doo!");
-         console.log(result);
+         console.log("" + new Date() + "; " + response.username + "; " + file.size + " bytes; " + JSON.stringify(result));
+         res.status(200).send("Message");
+      }).catch(e => {
+         res.status(500).send(e);
       });
-      res.status(200).send("Message");
    }).catch((error) => {
       res.status(500).send(error);
    });
-});
-
-app.get('/login', function (req, res, next) {
-   console.log(req);
-   console.log(req.url);
-   res.status(200).send("OK");
 });
 
 app.listen(port, function (err) {

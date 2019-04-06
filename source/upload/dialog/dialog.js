@@ -29,8 +29,8 @@
          }
       ])
 
-      .directive("uploadDialog", ["submitService", "userService",
-         function (submitService, userService) {
+      .directive("uploadDialog", ["messageService", "submitService", "userService",
+         function (messageService, submitService, userService) {
             return {
                scope: {
                   state: "=",
@@ -42,7 +42,21 @@
                      scope.state = new State();
                   }
                   scope.upload = () => {
-                     submitService.upload(scope.state.file, userService.token());
+                     if(scope.state.file.size >= 8 * 1024 * 1024) {
+                        messageService.warn("File uploading. Large files may take some time.");
+                     } else {
+                        messageService.info("Uploading file...");
+                     }
+
+                     scope.cancel();
+
+                     submitService.upload(scope.state.file, userService.token()).then(response => {
+                        messageService.clear();
+                        messageService.success("File uploaded successfully an email will be sent after it is processed.");
+                     }).catch(e => {
+                        messageService.clear();
+                        messageService.error("File upload failed. If the file continues to fail, please report.");
+                     });
                   }
                }
             };
