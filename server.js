@@ -62,6 +62,7 @@ function redirectSansToken(req, res) {
          ";token=" + req.query.access_token,
          { expires: new Date(response.exp * 1000) });
 
+      console.log(response);
       res.sendFile(__dirname + "/dist/index.html")
    }).catch((error) => {
       console.log(error);

@@ -19,6 +19,37 @@ under the License.
 
 'use strict';
 
+{
+   var _config = {
+      version: '0.0.1',
+      user: 'anon',
+      maxFileSize: 1024 * 1024 * 64, // 64MB
+      submit: {
+         uploadUrl: "upload"
+      }
+   };
+
+   angular.module("upload.config", []).service("configService", ['$q', function ($q) {
+      var service = {
+         getConfig: function getConfig(name) {
+            var response = this.config;
+            if (name) {
+               response = response[name];
+            }
+            return $q.when(response);
+         },
+
+
+         get config() {
+            return _config;
+         }
+      };
+
+      return service;
+   }]);
+}
+'use strict';
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 {
@@ -86,37 +117,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
          return (bytes / Math.pow(1024, Math.floor(number))).toFixed(precision) + ' ' + units[number];
       };
    });
-}
-'use strict';
-
-{
-   var _config = {
-      version: '0.0.1',
-      user: 'anon',
-      maxFileSize: 1024 * 1024 * 64, // 64MB
-      submit: {
-         uploadUrl: "upload"
-      }
-   };
-
-   angular.module("upload.config", []).service("configService", ['$q', function ($q) {
-      var service = {
-         getConfig: function getConfig(name) {
-            var response = this.config;
-            if (name) {
-               response = response[name];
-            }
-            return $q.when(response);
-         },
-
-
-         get config() {
-            return _config;
-         }
-      };
-
-      return service;
-   }]);
 }
 "use strict";
 
@@ -233,6 +233,61 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       };
    }]);
 }
+"use strict";
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+{
+   var SubmitService = function () {
+      function SubmitService($q, configService) {
+         _classCallCheck(this, SubmitService);
+
+         this.$q = $q;
+         this.config = configService.config.submit;
+      }
+
+      _createClass(SubmitService, [{
+         key: "upload",
+         value: function upload(file, token) {
+            //FILL FormData WITH FILE DETAILS.
+            var postData = new FormData();
+            var config = this.config;
+
+            postData.append("file", file);
+
+            // ADD LISTENERS.
+            var objXhr = new XMLHttpRequest();
+            //objXhr.addEventListener("progress", updateProgress, false);
+            objXhr.addEventListener("load", transferComplete, false);
+
+            // SEND FILE DETAILS TO THE API.
+            objXhr.open("POST", config.uploadUrl + "?token=" + token);
+            objXhr.send(postData);
+
+            var promise = this.$q.defer();
+            return promise.promise;
+
+            // CONFIRMATION.
+            function transferComplete(e) {
+               console.log("Completed upload");
+               if (e.target.status === 200) {
+                  promise.resolve(e.target.response);
+               } else {
+                  promise.reject(e.target.response);
+               }
+            }
+         }
+      }]);
+
+      return SubmitService;
+   }();
+
+   SubmitService.$inject = ["$q", "configService"];
+
+   angular.module("upload.submit", []).service("submitService", SubmitService);
+}
 'use strict';
 
 {
@@ -291,61 +346,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 			}
 		};
 	}]);
-}
-"use strict";
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-{
-   var SubmitService = function () {
-      function SubmitService($q, configService) {
-         _classCallCheck(this, SubmitService);
-
-         this.$q = $q;
-         this.config = configService.config.submit;
-      }
-
-      _createClass(SubmitService, [{
-         key: "upload",
-         value: function upload(file, token) {
-            //FILL FormData WITH FILE DETAILS.
-            var postData = new FormData();
-            var config = this.config;
-
-            postData.append("file", file);
-
-            // ADD LISTENERS.
-            var objXhr = new XMLHttpRequest();
-            //objXhr.addEventListener("progress", updateProgress, false);
-            objXhr.addEventListener("load", transferComplete, false);
-
-            // SEND FILE DETAILS TO THE API.
-            objXhr.open("POST", config.uploadUrl + "?token=" + token);
-            objXhr.send(postData);
-
-            var promise = this.$q.defer();
-            return promise.promise;
-
-            // CONFIRMATION.
-            function transferComplete(e) {
-               console.log("Completed upload");
-               if (e.target.status === 200) {
-                  promise.resolve(e.target.response);
-               } else {
-                  promise.reject(e.target.response);
-               }
-            }
-         }
-      }]);
-
-      return SubmitService;
-   }();
-
-   SubmitService.$inject = ["$q", "configService"];
-
-   angular.module("upload.submit", []).service("submitService", SubmitService);
 }
 "use strict";
 
