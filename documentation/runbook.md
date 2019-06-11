@@ -13,14 +13,22 @@ Provides a simple web page that seek to support the placenames [FSDF](http://www
 
 ### Technical overview
 
-Upload is predominantly a static web application with microservices provided using NodeJS as the middleware platform. The static content is served via the Node JS server from its static <code>dist</code> directory. The microservices run in user space under the ec2-user login. It's current deployment is in AWS using a single AWS EC2 instance but the code is not bound to any particular platform.
+Upload is predominantly a static web application with microservices provided using NodeJS as the middleware platform. The static content is served via the Node JS server from its static <code>dist</code> directory. The version of Node needs to be 7 or higher as the code does use some of the newer features of Javascript (async/await). The microservices run in user space under the ec2-user login. It's current deployment is in AWS using a single AWS EC2 instance but the code is not bound to any particular platform.
 
-The page is protected by AWS Cognito and is enforced via the NodeJS web server. The static content isn't protected and the application is not session based. Although the user logs in via AWS Cognito it only uses the token details for display information to the user, such as their logon and jurisdiction. The token is validated when a user tries to upload a file. If the token is invalid the service will fail. To avoid poor user experience the UI redirects to the login page if the token expires.
+The page is protected by AWS Cognito and is enforced via the NodeJS web server. The static content isn't protected and the application is not session based. Although the user logs in via AWS Cognito the application only uses the token details for display information to the user, such as their logon and jurisdiction. The token is validated when a user tries to upload a file. If the token is invalid the service will fail. To avoid poor user experience the UI redirects to the login page if the token expires.
 
 The token is validated twice.
 1) When the user navigates to the / or /index.html it is validated where the user ID, jurisdiction and expiry are extracted. A cookie is set with the values. The cookie is set to expire with the expiry of the token. The UI uses the cookie to display the user ID and jurisdiction and to determine when to force login on expiry.
 2) As mentioned previoulsy, the upload service validates the token again to ensure the request is from a current authenticated source.
 
+Location information: The application is location agnostic and it is currently controlled by the following definition in the Apache web server configuration under the /etc/httpd/conf.d/placenames.conf
+
+<code>
+    ProxyPass /upload http://localhost:4000<br/>
+    ProxyPassReverse /upload http://localhost:4000
+</code>
+
+See
 
 ### Service Level Agreements (SLAs)
 
@@ -68,7 +76,7 @@ SSH access controlled by PEM, ask the product owners for details if you are enti
 An AWS elastic IP for public access
 DNS entry pointing at the elastic IP
 
-As of writing the DEV instance is [here](http://upload.geospeedster.com) while the PROD instance is [here](http://upload.fsdf.org.au)
+As of writing the DEV instance is [here](http://placenames.geospeedster.com/upload) while the PROD instance is [here](http://placenames.fsdf.org.au/upload)
 It is expected that the DEV instance will be taken over by someone else but is currently routed through my (Larry Hill's) DNS while the PROD instance is managed indirectly by the product owner.
 
 ### Resilience, Fault Tolerance (FT) and High Availability (HA)

@@ -46,15 +46,15 @@ restart(){
 
 case "$1" in
         start)
-                echo "Start service SERVICE_NAME"
+                echo "Start service $SERVICE_NAME"
                 start
                 ;;
         stop)
-                echo "Stop service SERVICE_NAME"
+                echo "Stop service $SERVICE_NAME"
                 stop
                 ;;
         restart)
-                echo "Restart service SERVICE_NAME"
+                echo "Restart service $SERVICE_NAME"
                 restart
                 ;;
         *)
