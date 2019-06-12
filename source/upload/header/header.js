@@ -20,6 +20,9 @@
             link: function(scope) {
                scope.username = userService.username();
                scope.jurisdiction = userService.jurisdiction();
+               scope.logout = () => {
+                  userService.logout();
+               }
             }
          }
       }])

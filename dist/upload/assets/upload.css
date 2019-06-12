@@ -179,6 +179,21 @@ span.mandatory {
   content: "*";
   color: red;
 }
+.hide {
+  display: none;
+}
+
+.file-container {
+  margin-top: 0;
+}
+
+a.brighter {
+  color: blue;
+}
+
+a.brighter:hover {
+  font-weight: bold;
+}
 .upload-dialog p {
   padding: 15px;
   margin-top: 10px;
@@ -209,21 +224,6 @@ span.mandatory {
   .transform-succinct {
     display: none;
   }
-}
-.hide {
-  display: none;
-}
-
-.file-container {
-  margin-top: 0;
-}
-
-a.brighter {
-  color: blue;
-}
-
-a.brighter:hover {
-  font-weight: bold;
 }
 #fileDrop {
   font-weight: bold;

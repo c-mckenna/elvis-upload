@@ -74,6 +74,11 @@
             },
             token: function() {
                return parts.token;
+            },
+            logout: function() {
+               $cookies.remove("placenamesUpload");
+               window.location = "index.html";
+               parts = null;
             }
          };
       }])

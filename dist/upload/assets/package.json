@@ -1,6 +1,6 @@
 {
    "name": "elvis-upload",
-   "version": "0.0.1",
+   "version": "0.0.2",
    "description": "Application to allow upload of data to positioning transformation from GDA94 to GDA2020",
    "keywords": [
       "elvis",

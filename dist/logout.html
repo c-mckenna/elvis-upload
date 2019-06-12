@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en-us" id="ng-app" ng-app="UploadApp" class="ng-scope"><head><style type="text/css">[uib-typeahead-popup].dropdown-menu{display:block;}</style><style type="text/css">.uib-time input{width:50px;}</style><style type="text/css">[uib-tooltip-popup].tooltip.top-left > .tooltip-arrow,[uib-tooltip-popup].tooltip.top-right > .tooltip-arrow,[uib-tooltip-popup].tooltip.bottom-left > .tooltip-arrow,[uib-tooltip-popup].tooltip.bottom-right > .tooltip-arrow,[uib-tooltip-popup].tooltip.left-top > .tooltip-arrow,[uib-tooltip-popup].tooltip.left-bottom > .tooltip-arrow,[uib-tooltip-popup].tooltip.right-top > .tooltip-arrow,[uib-tooltip-popup].tooltip.right-bottom > .tooltip-arrow,[uib-tooltip-html-popup].tooltip.top-left > .tooltip-arrow,[uib-tooltip-html-popup].tooltip.top-right > .tooltip-arrow,[uib-tooltip-html-popup].tooltip.bottom-left > .tooltip-arrow,[uib-tooltip-html-popup].tooltip.bottom-right > .tooltip-arrow,[uib-tooltip-html-popup].tooltip.left-top > .tooltip-arrow,[uib-tooltip-html-popup].tooltip.left-bottom > .tooltip-arrow,[uib-tooltip-html-popup].tooltip.right-top > .tooltip-arrow,[uib-tooltip-html-popup].tooltip.right-bottom > .tooltip-arrow,[uib-tooltip-template-popup].tooltip.top-left > .tooltip-arrow,[uib-tooltip-template-popup].tooltip.top-right > .tooltip-arrow,[uib-tooltip-template-popup].tooltip.bottom-left > .tooltip-arrow,[uib-tooltip-template-popup].tooltip.bottom-right > .tooltip-arrow,[uib-tooltip-template-popup].tooltip.left-top > .tooltip-arrow,[uib-tooltip-template-popup].tooltip.left-bottom > .tooltip-arrow,[uib-tooltip-template-popup].tooltip.right-top > .tooltip-arrow,[uib-tooltip-template-popup].tooltip.right-bottom > .tooltip-arrow,[uib-popover-popup].popover.top-left > .arrow,[uib-popover-popup].popover.top-right > .arrow,[uib-popover-popup].popover.bottom-left > .arrow,[uib-popover-popup].popover.bottom-right > .arrow,[uib-popover-popup].popover.left-top > .arrow,[uib-popover-popup].popover.left-bottom > .arrow,[uib-popover-popup].popover.right-top > .arrow,[uib-popover-popup].popover.right-bottom > .arrow,[uib-popover-html-popup].popover.top-left > .arrow,[uib-popover-html-popup].popover.top-right > .arrow,[uib-popover-html-popup].popover.bottom-left > .arrow,[uib-popover-html-popup].popover.bottom-right > .arrow,[uib-popover-html-popup].popover.left-top > .arrow,[uib-popover-html-popup].popover.left-bottom > .arrow,[uib-popover-html-popup].popover.right-top > .arrow,[uib-popover-html-popup].popover.right-bottom > .arrow,[uib-popover-template-popup].popover.top-left > .arrow,[uib-popover-template-popup].popover.top-right > .arrow,[uib-popover-template-popup].popover.bottom-left > .arrow,[uib-popover-template-popup].popover.bottom-right > .arrow,[uib-popover-template-popup].popover.left-top > .arrow,[uib-popover-template-popup].popover.left-bottom > .arrow,[uib-popover-template-popup].popover.right-top > .arrow,[uib-popover-template-popup].popover.right-bottom > .arrow{top:auto;bottom:auto;left:auto;right:auto;margin:0;}[uib-popover-popup].popover,[uib-popover-html-popup].popover,[uib-popover-template-popup].popover{display:block !important;}</style><style type="text/css">.uib-datepicker-popup.dropdown-menu{display:block;float:none;margin:0;}.uib-button-bar{padding:10px 9px 2px;}</style><style type="text/css">.uib-position-measure{display:block !important;visibility:hidden !important;position:absolute !important;top:-9999px !important;left:-9999px !important;}.uib-position-scrollbar-measure{position:absolute !important;top:-9999px !important;width:50px !important;height:50px !important;overflow:scroll !important;}.uib-position-body-scrollbar-measure{overflow:scroll !important;}</style><style type="text/css">.uib-datepicker .uib-title{width:100%;}.uib-day button,.uib-month button,.uib-year button{min-width:100%;}.uib-left,.uib-right{width:100%}</style><style type="text/css">.ng-animate.item:not(.left):not(.right){-webkit-transition:0s ease-in-out left;transition:0s ease-in-out left}</style><style type="text/css">@charset "UTF-8";[ng\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}</style>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<title>Placenames File Upload</title>
+    <meta charset="utf-8">
+	<link rel="icon" type="image/png" href="upload/resources/img/SiteFavIcon.png">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="Geoscience Australia">
+    <meta name="version" content="BUILD-VERSION">
+
+	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.css" crossorigin="anonymous">
+
+    <link href="upload/resources/css/ga.css" rel="stylesheet">
+    <link href="upload/resources/css/app.header.footer.css" rel="stylesheet">
+	<link href="upload/resources/css/mars.css" rel="stylesheet">
+
+	<link href="upload/bower_components/explorer-ui-components/dist/ga-explorer-ui.css" rel="stylesheet">
+	<link href="upload/bower_components/components-font-awesome/css/font-awesome.min.css" rel="stylesheet">
+
+
+	<link href="upload/assets/upload.css?v=VERSION_NO_1" rel="stylesheet">
+
+<script type="text/javascript" src="chrome-extension://aadgmnobpdmgmigaicncghmmoeflnamj/ng-inspector.js"></script></head><body ng-controller="RootCtrl as root" style="overflow-y: auto;" class="ng-scope">
+
+<!--[if lt IE 9]>
+<div style="margin-right:100px; position:absolute; top:0">
+<style>
+.navbar {
+	display:none!important;
+}
+</style>
+<p>
+<img src="upload/resources/css/images/geoscience_inline_padded_small.png" style="float:left;padding-right:10px;" />
+<br/>
+<strong>Placenames File Upload - browser requirements.</strong><br/>
+Unfortunately this application requires a browser made more recently than what you are using. We will not be providing a lower spec
+version of this application. The latest Firefox, Chrome plus Microsoft Internet Explorer 9 and higher including Edge browsers have been tested to work as of mid-2019.
+</div>
+<![endif]-->
+
+<!-- BEGIN: Sticky Header -->
+<div icsm-header="" class="navbar navbar-default navbar-fixed-top ng-isolate-scope" heading="'Placenames File Upload'" current="'position'" headingtitle="'Placenames File Upload'" breadcrumbs="[{name:'Placenames', title: 'Reload Placenames File Upload', url: '.'}]" helptitle="'Get help about Placenames File Upload'" helpalttext="'Get help about Placenames File Upload'"><div class="container-full common-header" style="padding-right:10px; padding-left:10px">
+    <div class="navbar-header">
+
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".ga-header-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <a href="/" class="appTitle visible-xs">
+            <h1 style="font-size:120%" class="ng-binding">Placenames File Upload</h1>
+        </a>
+    </div>
+    <div class="navbar-collapse collapse ga-header-collapse">
+        <ul class="nav navbar-nav">
+            <li class="hidden-xs"><a href="/"><h1 class="applicationTitle ng-binding">Placenames File Upload</h1></a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right nav-icons">
+        	<li common-navigation="" current="current" role="menuitem" style="padding-right:10px" class="ng-isolate-scope"><alt-themes current="current"></alt-themes></li>
+			<li mars-version-display="" role="menuitem"><span class="badge ng-binding">Version: 0.0.1</span>
+</li>
+			<li style="width:10px"></li>
+        </ul>
+    </div><!--/.nav-collapse -->
+    <div style="position:absolute; bottom:25px; right:15px">
+      <icsm-user><span class="ng-binding"><strong>User Name:</strong> larry <strong>Jurisdiction:</strong> TEST</span></icsm-user>
+   </div>
+</div>
+
+<!-- Strap -->
+<div class="row">
+    <div class="col-md-12">
+        <div class="strap-blue">
+        </div>
+        <div class="strap-white">
+        </div>
+        <div class="strap-red">
+        </div>
+    </div>
+</div></div>
+<!-- END: Sticky Header -->
+<div class="main-body">
+   <file><div class="container-fluid file-container ng-scope" ng-controller="RootCtrl as root">
+   <div class="row">
+      <div class="col-md-7" style="border-right: 2px solid lightgray">
+         <div>
+            <h3 style="margin-top:10px">File Drop Directions</h3>
+            As a registered submitter of placenames features it is your responsibility to ensure your data is in the approved format. While any file is able to be submitted this page only submits the file for processing. The only message you will receive at this point is that the file has been queued for processing. Later, once the file has been processed you will receive an email describing the success or otherwise of the job.
+            <div>
+               <div style="padding-bottom:5px">
+                  <file-drop state="root.state" class="ng-isolate-scope"><div id="fileDrop" title="Drop a file with Placenames Features here">
+   <br> Drop <br> File <br> Here
+</div></file-drop>
+               </div>
+               <input-format list="root.data.fileUploadFormats">
+            </input-format></div>
+         </div>
+
+      </div>
+      <div class="col-md-5">
+         <upload-dialog state="root.state" settings="root.data" class="ng-isolate-scope"><div class="upload-dialog">
+   <!-- ngIf: !state.file --><div class="ud-info ng-scope" ng-if="!state.file">
+      <div style="font-weight: bold">
+         <i class="fa fa-hand-o-left point-at-box fa-2x" aria-hidden="true" style="padding-right:12px;"></i>
+         Select and drop file for processing
+      </div>
+      <br>
+      <div>
+         <span style="font-weight: bold">Placenames -</span>
+         Drop a single file for adding placenames features to the <a href="http://placenames.fsdf.org.au" target="_blank">Placenames Application</a>.
+      </div>
+
+   </div><!-- end ngIf: !state.file -->
+
+   <!-- ngIf: state.file -->
+   <!-- ngIf: state.file.size > settings.maxFileSize -->
+   <!-- ngIf: state.file.size <= settings.maxFileSize -->
+</div></upload-dialog>
+      </div>
+   </div>
+</div></file></div>
+<!-- Messages go here. They are fixed to the tab bar. -->
+<div explorer-messages="" class="marsMessages noPrint">
+<span ng-controller="MessageController" style="z-index:3" class="ng-scope">
+  <span ng-show="historic.length > 10000" class="ng-hide">
+    <a href="javascript:;" title="Show recent messages"><i class="fa fa-comments-o" style="color:black"></i></a>
+  </span>
+  <div ng-show="message" class="alert ng-binding ng-hide" role="alert" ng-class="{&quot;alert-success&quot;:(message.type==&quot;success&quot;),&quot;alert-info&quot;:(message.type==&quot;info&quot;),&quot;alert-warning&quot;:(message.type==&quot;warn&quot;),&quot;alert-danger&quot;:(message.type==&quot;error&quot;)}">
+     <a href="javascript:;" ng-click="removeMessage()"><i class="fa fa-times-circle" style="font-size:120%"></i></a>
+  </div>
+</span></div>
+<!-- BEGIN: Page Content -->
+
+<div explorer-flash="" class="noPrint marsFlash"><div class="marsFlash ng-hide" ng-show="messages.items.length > 0">
+  <!-- ngRepeat: message in messages.items -->
+</div></div>
+<!-- END: Page Content -->
+
+<!-- BEGIN: Sticky Footer -->
+<div page-footer="" style="z-index:5; " class="noPrint"><!-- Footer -->
+<nav class="navbar navbar-inverse navbar-fixed-bottom ga-footer" role="navigation" explorer-footer="" style="bottom: -34px;">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle footer</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+        <div class="navbar-nobrand">
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li><a href="http://creativecommons.org/licenses/by/3.0/au/deed.en" target="_blank"><img src="data:image/png;base64,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" height="20px" alt="CC BY 3.0 AU"></a></li>
+                    <li><a href="http://www.ga.gov.au/copyright" target="_blank">Copyright</a></li>
+                    <li><a href="http://www.ga.gov.au/disclaimer" target="_blank">Disclaimer</a></li>
+                    <li><a href="http://www.ga.gov.au/privacy" target="_blank">Privacy</a></li>
+                    <li><a href="http://www.ga.gov.au/accessibility" target="_blank">Accessibility</a></li>
+                    <li><a href="http://www.ga.gov.au/ips" target="_blank">Information Publication Scheme</a></li>
+                    <li><a href="http://www.ga.gov.au/ips/foi" target="_blank">Freedom of Information</a></li>
+                    <li class="contact"><a href="http://www.ga.gov.au/contact-us" target="_blank">Contact us</a> </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</nav></div>
+<!-- END: Sticky Footer -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+
+	<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" crossorigin="anonymous"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"></script>
+  	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular-animate.min.js"></script>
+  	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular-sanitize.min.js"></script>
+  	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular-aria.min.js"></script>
+  	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular-cookies.min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/1.3.3/ui-bootstrap-tpls.min.js"></script>
+
+   <script>
+      var d3 = {};
+      angular.module("ui.bootstrap-slider", []);
+   </script>
+
+   <script src="upload/bower_components/explorer-ui-components/dist/ga-explorer-ui.js"></script>
+
+	<!-- These are the "upload" specific includes of modules -->
+	<script src="upload/assets/common.js?v=VERSION_NO_1"></script>
+	<script src="upload/assets/upload.js?v=VERSION_NO_1"></script>
+
+
+</body></html>

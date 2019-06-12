@@ -46,7 +46,7 @@ mime.define({
 });
 
 app.use('/login', function (req, res) {   // Allows access to login page
-   res.sendFile(__dirname + '/dist/login.html')  // before access token check
+   res.sendFile(__dirname + '/dist/login.html');  // before access token check
 });
 
 app.get('/', redirectSansToken);
