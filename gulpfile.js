@@ -1,128 +1,129 @@
 // Include gulp
-var gulp = require('gulp');
+let { src, dest, series, watch } = require('gulp');
 
 // Include Our Plugins
-var fs            = require('fs');
-var header        = require('gulp-header');
-var eslint        = require('gulp-eslint');
-var babel         = require('gulp-babel');
-var concat        = require('gulp-concat');
-var concatCss     = require('gulp-concat-css');
-var uglify        = require('gulp-uglify');
-var templateCache = require('gulp-angular-templatecache');
-var addStream     = require('add-stream');
+let fs = require('fs');
+let header = require('gulp-header');
+let eslint = require('gulp-eslint');
+let babel = require('gulp-babel');
+let concat = require('gulp-concat');
+let concatCss = require('gulp-concat-css');
+let uglify = require('gulp-uglify');
+let templateCache = require('gulp-angular-templatecache');
+let addStream = require('add-stream');
 
-var directories = {
-	assets:      'dist/upload/assets',
-	source:      'source',
-	resources:  'resources',
-	outresources:'dist/upload/resources',
-   views:      'views',
-   outbower:   'dist/upload/bower_components'
+let directories = {
+   assets: 'dist/upload/assets',
+   source: 'source',
+   resources: 'resources',
+   outresources: 'dist/upload/resources',
+   views: 'views',
+   outbower: 'dist/upload/bower_components'
 };
 
 // Lint Task
-gulp.task('lint', function() {
-    return gulp.src(directories.source + '/**/*.js')
-        .pipe(eslint())
-        .pipe(eslint.format())
-        .pipe(eslint.failAfterError());
-});
+function lint() {
+   return src(directories.source + '/**/*.js')
+      .pipe(eslint())
+      .pipe(eslint.format())
+      .pipe(eslint.failAfterError());
+}
+exports.lint = lint;
 
-gulp.task('resources', function () {
-    return gulp.src(directories.resources + '/**/*')
-        .pipe(gulp.dest(directories.outresources));
-});
+function resources() {
+   return src(directories.resources + '/**/*')
+      .pipe(dest(directories.outresources));
+}
+exports.resources = resources;
 
-gulp.task('views', function () {
-    return gulp.src(directories.views + '/**/*')
-        .pipe(gulp.dest('dist'));
-});
+function views() {
+   return src(directories.views + '/**/*')
+      .pipe(dest('dist'));
+}
+exports.views = views;
 
 //Concatenate & Minify JS
-gulp.task('scripts', ["commonScripts", 'uploadScripts']);
-
-//Concatenate & Minify JS
-gulp.task('commonScripts', function() {
+function commonScripts() {
    return prepareScripts('common');
-});
-
-gulp.task('uploadScripts', function() {
-   return prepareScripts('upload');
-});
-
-function prepareScripts(name) {
-   return gulp.src(directories.source + '/' + name + '/**/*.js')
-      .pipe(babel({
-            compact: false,
-            comments: true,
-            presets: ['es2015'],
-            plugins: ["syntax-async-generators", "transform-regenerator"]
-      }))
-	   .pipe(addStream.obj(prepareNamedTemplates(name)))
-      .pipe(concat(name + '.js'))
-      .pipe(header(fs.readFileSync(directories.source + '/licence.txt', 'utf8')))
-      .pipe(gulp.dest(directories.assets));
 }
+exports.commonScripts = commonScripts;
 
+function uploadScripts() {
+   return prepareScripts('upload');
+}
+exports.uploadScripts = uploadScripts;
 
 //Concatenate & Minify JS
-gulp.task('squash', []); // ['squashCommon','squashIcsm', 'squashWater', 'squashStart', 'squashImagery', 'squashUpload']);
-
-gulp.task('squashCommon', function() {
-	return gulp.src(directories.assets + '/common.js')
+function squashCommon() {
+   return src(directories.assets + '/common.js')
       .pipe(babel({
-            compact: true,
-            comments:	false,
-            presets: ['es2015'],
-            plugins: ["syntax-async-generators"]
+         compact: true,
+         comments: false,
+         presets: ['@babel/env'],
+         plugins: ["syntax-async-generators"]
       }))
-		.pipe(uglify())
+      .pipe(uglify())
       .pipe(header(fs.readFileSync(directories.source + '/licence.txt', 'utf8')))
-		.pipe(gulp.dest(directories.assets + "/min"));
-});
-
-gulp.task('squashUpload', function() {
-	return squashJs('upload');
-});
-
-function squashJs(name) {
-	return gulp.src(directories.assets + '/' + name + '.js')
-		.pipe(uglify())
-		.pipe(gulp.dest(directories.assets + "/min"));
+      .pipe(dest(directories.assets + "/min"));
 }
+exports.squashCommon = squashCommon;
 
+function squashUpload() {
+   return squashJs('upload');
+}
+exports.squashUpload = squashUpload;
 
 // Watch Files For Changes
-gulp.task('watch', function() {
-	// We watch both JS and HTML files.
-    gulp.watch(directories.source + '/**/*(*.js|*.html)', ['lint']);
-    gulp.watch(directories.source + '/common/**/*(*.js|*.html)', ['commonScripts']);
-    gulp.watch(directories.source + '/upload/**/*(*.js|*.html)', ['uploadScripts']);
-    gulp.watch(directories.source + '/**/*.css', ['concatCss']);
-    gulp.watch(directories.assets + '/common.js', ['squashCommon']);
-    gulp.watch(directories.views +  '/*', ['views']);
-    gulp.watch(directories.resources + '/**/*', ['resources']);
-    //gulp.watch('scss/*.scss', ['sass']);
-});
+function watchFiles() {
+   let ignore = { ignoreInitial: false };
+   // We watch both JS and HTML files.
+   watch(directories.source + '/**/*(*.js|*.html)', ignore, lint);
+   watch(directories.source + '/common/**/*(*.js|*.html)', ignore, series(commonScripts, squashCommon));
+   watch(directories.source + '/upload/**/*(*.js|*.html)', ignore, series(uploadScripts, squashUpload));
+   watch(directories.source + '/**/*.css', ignore, catCss);squashUpload
+   watch(directories.views + '/*', ignore, views);
+   watch(directories.resources + '/**/*', ignore, resources);
+}
+exports.watch = watchFiles;
 
-gulp.task('concatCss', function () {
-  return gulp.src(directories.source + '/**/*.css')
-    .pipe(concatCss("upload.css"))
-    .pipe(gulp.dest(directories.assets));
-});
+function catCss() {
+   return src(directories.source + '/**/*.css')
+      .pipe(concatCss("upload.css"))
+      .pipe(dest(directories.assets));
+}
+exports.concatCss = catCss;
 
-gulp.task('package', function() {
-   return gulp.src('package.json')
-      .pipe(gulp.dest(directories.assets));
-});
-
-gulp.task('build', ['views', 'package', 'scripts', 'concatCss', 'resources'])
+function package() {
+   return src('package.json')
+      .pipe(dest(directories.assets));
+}
+exports.package = package;
 
 // Default Task
-gulp.task('default', ['lint', 'scripts', 'concatCss', 'watch', 'package', 'resources', 'views']);
+exports.default = series(resources, views, package, watchFiles);
+
+// Private functions
+function squashJs(name) {
+   return src(directories.assets + '/' + name + '.js')
+      .pipe(uglify())
+      .pipe(dest(directories.assets + "/min"));
+}
 
 function prepareNamedTemplates(name) {
-   return gulp.src(directories.source + '/' + name + '/**/*.html')
-      .pipe(templateCache({module: name + ".templates", root:name, standalone : true}));
+   return src(directories.source + '/' + name + '/**/*.html')
+      .pipe(templateCache({ module: name + ".templates", root: name, standalone: true }));
+}
+
+function prepareScripts(name) {
+   return src(directories.source + '/' + name + '/**/*.js')
+      .pipe(babel({
+         compact: false,
+         comments: true,
+         presets: ['@babel/env'],
+         plugins: ["syntax-async-generators", "transform-regenerator"]
+      }))
+      .pipe(addStream.obj(prepareNamedTemplates(name)))
+      .pipe(concat(name + '.js'))
+      .pipe(header(fs.readFileSync(directories.source + '/licence.txt', 'utf8')))
+      .pipe(dest(directories.assets));
 }
