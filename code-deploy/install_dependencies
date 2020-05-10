@@ -1,5 +1,5 @@
 #!/bin/bash
-PROJECT_DIR=/home/ec2-user/elvis-upload
+PROJECT_DIR=$HOME/elvis-upload
 HTTP_CONFIG_DIRECTORY=/etc/httpd/conf.d
 UPLOAD_PROXY_FILE_NAME=upload.conf
 UPLOAD_SERVER_FILE_NAME=upload
@@ -9,10 +9,13 @@ UPLOAD_SERVICE_NAME=upload
 UPLOAD_SERVICE_TARGET=/etc/init.d/$UPLOAD_SERVICE_NAME
 UPLOAD_SERVICE_SOURCE=$PROJECT_DIR/code-deploy/upload
 
-git clone https://github.com/Tomella/elvis-upload.git
-cd elvis-upload
-npm install
-bower install
+if [ ! -d "$PROJECT_DIR" ]; then
+   cd ~
+   git clone https://github.com/Tomella/elvis-upload.git
+   cd elvis-upload
+   npm install --only=prod
+   bower install
+fi
 
 # Sets up Apache HTTP service
 if [ ! -f "$UPLOAD_PROXY_CONFIG_TARGET" ]; then
