@@ -351,15 +351,6 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 }
 "use strict";
 
-{
-  angular.module("upload.mandatory", []).directive("mandatory", function () {
-    return {
-      template: '<span class="mandatory" title="You must provide a value">*</span>'
-    };
-  });
-}
-"use strict";
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var FileDrop = function FileDrop(element, handler) {
@@ -431,6 +422,15 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 var State = function State() {
   _classCallCheck(this, State);
 };
+"use strict";
+
+{
+  angular.module("upload.mandatory", []).directive("mandatory", function () {
+    return {
+      template: '<span class="mandatory" title="You must provide a value">*</span>'
+    };
+  });
+}
 angular.module('upload.templates', []).run(['$templateCache', function($templateCache) {$templateCache.put('upload/dialog/dialog.html','<div class="upload-dialog">\r\n   <div class="ud-info" ng-if="!state.file">\r\n      <div style="font-weight: bold">\r\n         <i class="fa fa-hand-o-left point-at-box fa-2x" aria-hidden="true" style="padding-right:12px;"></i>\r\n         Select and drop file for processing\r\n      </div>\r\n      <br/>\r\n      <div>\r\n         <span style="font-weight: bold">Placenames -</span>\r\n         Drop a single file for adding placenames features to the <a href="http://placenames.fsdf.org.au" target="_blank">Placenames Application</a>.\r\n      </div>\r\n\r\n   </div>\r\n\r\n   <div ng-if="state.file">\r\n      <h3>Selected {{state.file.name}} ({{state.file.size | bytes}})</h3>\r\n   </div>\r\n   <div ng-if="state.file.size > settings.maxFileSize">\r\n      The size of the file to be uploaded must not exceed {{settings.maxFileSize | bytes}}. Please select a smaller file.\r\n      <br/><br/>\r\n      <button type="button" class="btn btn-primary" ng-click="cancel()">OK</button>\r\n   </div>\r\n   <div ng-if="state.file.size <= settings.maxFileSize">\r\n      Are you sure you want to upload this file? If this data validates successfully it will overwrite the existing data\r\n      in the <a href="http://placenames.fsdf.org.au" target="_blank"></a>Placenames application</a>.\r\n      <br/>\r\n      <br/>\r\n      <button type="button" class="btn btn-primary" ng-click="upload()">Upload Now</button>\r\n      <button type="button" class="btn btn-primary" ng-click="cancel()">Cancel</button>\r\n   </div>\r\n</div>');
 $templateCache.put('upload/file/file.html','<div class="container-fluid file-container" ng-controller="RootCtrl as root">\r\n   <div class="row">\r\n      <div class="col-md-7" style="border-right: 2px solid lightgray">\r\n         <div>\r\n            <h3 style="margin-top:10px">File Drop Directions</h3>\r\n            As a registered submitter of placenames features it is your responsibility to ensure your data is in the approved format. While any file is able to be submitted this page only submits the file for processing. The only message you will receive at this point is that the file has been queued for processing. Later, once the file has been processed you will receive an email describing the success or otherwise of the job.\r\n            <div>\r\n               <div style="padding-bottom:5px">\r\n                  <file-drop state="root.state" />\r\n               </div>\r\n               <input-format list="root.data.fileUploadFormats" />\r\n            </div>\r\n         </div>\r\n\r\n      </div>\r\n      <div class="col-md-5" >\r\n         <upload-dialog state="root.state" settings="root.data"/>\r\n      </div>\r\n   </div>\r\n</div>');
 $templateCache.put('upload/filedrop/filedrop.html','<div id="fileDrop" title="Drop a file with Placenames Features here">\r\n   <br/> Drop <br/> File <br/> Here\r\n</div>');

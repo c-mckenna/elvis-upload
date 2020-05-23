@@ -110,6 +110,29 @@
   color: #fff;
   background-color: #777;
 }
+.main-body {
+  position: fixed;
+  top: 85px;
+  left: 0px;
+  right: 0px;
+  bottom: 8px;
+  overflow-y: auto;
+}
+
+.point-at-box {
+  transform: rotate(-35deg);
+}
+
+@media screen and (max-width: 990px) {
+  .point-at-box {
+    transform: rotate(135deg);
+  }
+}
+
+span.mandatory {
+  content: "*";
+  color: red;
+}
 .radCore {
   margin-right: 3px;
   display: inline-block;
@@ -155,29 +178,6 @@ div.leaflet-control-scale-line {
   div.leaflet-control-scale-line {
     display: none;
   }
-}
-.main-body {
-  position: fixed;
-  top: 85px;
-  left: 0px;
-  right: 0px;
-  bottom: 8px;
-  overflow-y: auto;
-}
-
-.point-at-box {
-  transform: rotate(-35deg);
-}
-
-@media screen and (max-width: 990px) {
-  .point-at-box {
-    transform: rotate(135deg);
-  }
-}
-
-span.mandatory {
-  content: "*";
-  color: red;
 }
 .upload-dialog p {
   padding: 15px;
@@ -225,22 +225,6 @@ a.brighter {
 a.brighter:hover {
   font-weight: bold;
 }
-#fileDrop {
-  font-weight: bold;
-  font-size: 200%;
-  line-height: 2;
-  height: 250px;
-  width: 100%;
-  z-index: 1;
-  background-color: #eeeeee;
-  text-align: center;
-  border: 1px dashed gray;
-  border-radius: 4px;
-  padding: 15px;
-  padding-left: 5px;
-  padding-right: 5px;
-  margin: auto;
-}
 .nav-icons {
   margin-top: 7px !important;
 }
@@ -270,4 +254,20 @@ a.brighter:hover {
 
 .common-header {
   background-color: white;
+}
+#fileDrop {
+  font-weight: bold;
+  font-size: 200%;
+  line-height: 2;
+  height: 250px;
+  width: 100%;
+  z-index: 1;
+  background-color: #eeeeee;
+  text-align: center;
+  border: 1px dashed gray;
+  border-radius: 4px;
+  padding: 15px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: auto;
 }
