@@ -1,0 +1,22 @@
+#!/bin/bash
+# Usage: copy this file to the instance and run it once, e.g. /bin/bash alt_deploy
+
+PROJECT_DIR=/home/ec2-user/elvis-upload
+UPLOAD_SERVICE_NAME=upload
+UPLOAD_SERVICE_SOURCE=$PROJECT_DIR/code-deploy/upload
+
+cd /home/ec2-user
+git clone https://github.com/GeoscienceAustralia/elvis-upload.git
+
+cd $PROJECT_DIR
+
+# Application does not work after this commit
+git checkout -b v002 12162bfa82239d29911c5a23789c2716bd599a20
+npm install
+bower install
+
+# Creates a SYSV service and autostarts it
+sudo cp $UPLOAD_SERVICE_SOURCE /etc/init.d
+sudo chmod +x /etc/init.d/$UPLOAD_SERVICE_NAME
+sudo service $UPLOAD_SERVICE_NAME start
+sudo chkconfig $UPLOAD_SERVICE_NAME on
