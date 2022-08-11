@@ -96,11 +96,13 @@ let loginUrl;
    app.post('/upload', function (req, res, next) {
       let token = req.query.token;
       cognito.validate(token).then(response => {
+         const crossAccountRole = secrets[config.crossAccountRole];
+
          let file = req.files.file;
          let jurisdiction = response['cognito:groups'][0];
          let prefix = config.jurisdictionToS3[jurisdiction].path;
 
-         awsS3.upload(prefix, file.name, file.data).then(result => {
+         awsS3.uploadWithRole(prefix, file.name, file.data, crossAccountRole).then(result => {
             console.log("" + new Date() + "; " + response.username + "; " + file.size + " bytes; " + JSON.stringify(result));
             res.status(200).send("Message");
          }).catch(e => {
