@@ -2,7 +2,7 @@ const config = require("./lib/config");
 const express = require("express");
 const fileUpload = require("express-fileupload");
 
-const SecretsManager = require(".lib/secretsmanager");;
+const { SecretsManager}  = require("./lib/secretsmanager");
 let secretsmanager = new SecretsManager(config.secretsManager.region);
 
 const app = express();
@@ -68,7 +68,6 @@ let loginUrl;
    app.get('/index.html', redirectSansToken);
 
    async function redirectSansToken(req, res) {
-      // console.log(req.query);
       cognito.validate(req.query.access_token).then(response => {
          res.cookie('placenamesUpload',
             "username=" + response.username +
@@ -115,8 +114,4 @@ let loginUrl;
    app.listen(port, function (err) {
       console.log("running server on port " + port);
    });
-
 })();
-
-
-
